@@ -38,6 +38,8 @@
 					<input type="text" name="message" id="message" class="form-control" autocomplete="off">
 				</div>
 				
+				<input type="hidden" name="action" id="action">
+
 				<hr>
 			<div id="output" class="chatbox">
 
@@ -56,6 +58,19 @@
 			socket.onopen = ()=>{
 				console.log("success connected")
 			}
+
+			socket.onclose = ()=>{
+				console.log("conn close")
+			}
+
+			socket.onerror = error =>{
+				console.log("error ")
+			}
+
+			socket.onmessage = msg => {
+				console.log(msg)
+			}
+			
 		})
 	</script>	
 	<!-- JavaScript Bundle with Popper -->
