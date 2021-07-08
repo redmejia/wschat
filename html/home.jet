@@ -28,6 +28,7 @@
 		</div>
 		<div class="row">
 			<div class="col-6 col-md-4">
+				<p><a href="https://github.com">Got to git</a></p>
 				chat
 				<div class="form-group">
 					<label for="username">Username:</label>
@@ -54,6 +55,14 @@
 </body>
 	<script>
 		let socket = null;
+
+		window.onbeforeunload = function(){
+			console.log("leaving")
+			let jsonData = {};
+			jsonData["action"] = "left"
+			socket.send(JSON.stringify(jsonData))
+		}
+
 		document.addEventListener("DOMContentLoaded", function(){
 			socket = new WebSocket("ws://127.0.0.1:8080/ws");
 			socket.onopen = ()=>{
