@@ -38,7 +38,10 @@
 					<label for="message">Message:</label>
 					<input type="text" name="message" id="message" class="form-control" autocomplete="off">
 				</div>
-				
+
+				<hr>
+				<a href="javascript:void(0);" class="btn btn-outline-secondary" id="sendBth" >Send Message</a>
+
 				<input type="hidden" name="action" id="action">
 
 				<hr>
@@ -55,6 +58,9 @@
 </body>
 	<script>
 		let socket = null;
+		let o = document.getElementById("output")
+		let userField = document.getElementById("username")
+		let messageField = document.getElementById("message")
 
 		window.onbeforeunload = function(){
 			console.log("leaving")
@@ -99,6 +105,9 @@
 						}
 
 					break;
+					case "broadcast":
+						o.innerHTML = o.innerHTML + data.message + "<br>"
+						break;
 
 				}
 			}
@@ -106,12 +115,47 @@
 			let userInput = document.getElementById("username");
 			username.addEventListener("change", function(){
 				let jsonData = {}
-				jsonData["action"] = "username"
-				jsonData["username"] = this.value
+				jsonData["action"] = "username";
+				jsonData["username"] = this.value;
 				socket.send(JSON.stringify(jsonData));
 			})
 
+			document.getElementById("message").addEventListener("keydown", function(event){
+				if(event.code === "Enter"){
+					if(!socket){
+						console.log("no connection");
+						return false;
+					}
+					event.preventDefault();
+					event.stopPropagation();
+
+					sendMessage();
+				}
+			})
+
+			document.getElementById("sendBth").addEventListener("click", function(){
+				if((userField.value === "")|| (messageField.value === "")){
+					alert("fill out user and message")
+					return false;
+				}esle{
+					sendMessage()
+				}
+			})
+
 		})
+
+
+		function sendMessage(){
+			let jsonData = {};
+			jsonData["action"] = "broadcast";
+			jsonData["username"] = document.getElementById("username").value;
+			jsonData["message"] = document.getElementById("message").value;
+
+			socket.send(JSON.stringify(jsonData));
+
+			document.getElementById("message").value = "";
+
+		}
 	</script>	
 	<!-- JavaScript Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
