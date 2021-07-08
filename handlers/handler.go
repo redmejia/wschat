@@ -10,9 +10,10 @@ import (
 
 var views = jet.NewSet(
 	jet.NewOSFileSystemLoader("./html"),
-	jet.InDevelopmentMode(),
+	jet.InDevelopmentMode(), // only for develoment
 )
 
+// Home page
 func Home(w http.ResponseWriter, r *http.Request) {
 	err := renderPage(w, "home.jet", nil)
 	if err != nil {
