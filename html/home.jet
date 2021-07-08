@@ -61,7 +61,7 @@
 		let o = document.getElementById("output")
 		let userField = document.getElementById("username")
 		let messageField = document.getElementById("message")
-
+		
 		window.onbeforeunload = function(){
 			console.log("leaving")
 			let jsonData = {};
@@ -126,20 +126,26 @@
 						console.log("no connection");
 						return false;
 					}
+					
+					 if((userField.value === "")||(messageField.value === "")) {
+					 	alert("fill out user and message")
+					 	return false;
+					 }else{
+					 	sendMessage()
+					 }
 					event.preventDefault();
 					event.stopPropagation();
-
 					sendMessage();
 				}
 			})
 
 			document.getElementById("sendBth").addEventListener("click", function(){
-				if((userField.value === "")|| (messageField.value === "")){
-					alert("fill out user and message")
-					return false;
-				}esle{
-					sendMessage()
-				}
+			 	if((userField.value === "")||(messageField.value === "")) {
+			 		alert("fill out user and message")
+					 return false;
+			 	}else{
+			 		sendMessage()
+			 	}	
 			})
 
 		})
