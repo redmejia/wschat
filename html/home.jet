@@ -69,8 +69,10 @@
 
 			socket.onmessage = msg => {
 				console.log(msg)
+				let j = JSON.parse(msg.data);
+				console.log(j);
 			}
-			
+
 		})
 	</script>	
 	<!-- JavaScript Bundle with Popper -->
